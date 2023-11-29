@@ -3,6 +3,22 @@
 ## Description
 This Node.js script automatically refreshes a Spotify access token, fetches the current song playing on a user's Spotify account, and updates the user's Instagram bio with this song information.
 
+The development process involved several key steps:
+
+- **Reverse Engineering**: Understanding the Instagram API's behavior required analyzing network requests and responses. This was crucial for figuring out how to programmatically update the Instagram bio.
+
+- **Spotify API Integration**: The script uses the Spotify Web API to fetch details about the currently playing song. This involved authenticating with Spotify, handling access tokens, and making API requests.
+
+- **Token Management**: The script manages Spotify access tokens, automatically refreshing them as needed. This ensures uninterrupted access to the user's Spotify account data.
+
+- **Instagram Integration**: While not using the official Instagram API, the script mimics the necessary HTTP requests to update the Instagram bio. This part required careful observation of the network requests made during a manual bio update.
+
+- **Scheduling**: The script runs a check at regular intervals to keep the bio updated with the latest song playing on Spotify.
+
+- **Environmental Variables**: To ensure security and ease of configuration, the script uses environmental variables for sensitive information like API keys and user credentials.
+
+This project is an exploration of the capabilities and limits of interacting with third-party APIs and offers a practical example of how different web services can be combined to create new functionalities. It's an illustration of both the creative possibilities and the technical challenges inherent in modern web development.
+
 ## Setup and Installation
 
 ### Prerequisites
