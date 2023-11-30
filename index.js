@@ -11,6 +11,18 @@ const client_id = process.env.SPOTIFY_CLIENT_ID;
 const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
 var cookie = process.env.INSTAGRAM_COOKIE;
 let oldBio;
+function toBoldText(str) {
+	const normalChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+	const boldChars = '𝗔𝗕𝗖𝗗𝗘𝗙𝗚𝗛𝗜𝗝𝗞𝗟𝗠𝗡𝗢𝗣𝗤𝗥𝗦𝗧𝗨𝗩𝗪𝗫𝗬𝗭𝗮𝗯𝗰𝗱𝗲𝗳𝗴𝗵𝗶𝗷𝗸𝗹𝗺𝗻𝗼𝗽𝗾𝗿𝘀𝘁𝘂𝘃𝘄𝘅𝘆𝘇𝟬𝟭𝟮𝟯𝟰𝟱𝟲𝟳𝟴𝟵';
+	let boldStr = '';
+
+	for (let i = 0; i < str.length; i++) {
+			const index = normalChars.indexOf(str[i]);
+			boldStr += index !== -1 ? boldChars[index] : str[i];
+	}
+
+	return boldStr;
+}
 
 async function refreshAccessToken(refreshToken) {
 	try {
@@ -27,6 +39,7 @@ async function refreshAccessToken(refreshToken) {
 
 		const newAccessToken = response.data.access_token;
 		token = newAccessToken;
+		refreshToken = response.data.refresh_token
 	} catch (error) {
 		console.error('Error refreshing access token', error);
 	}
@@ -42,7 +55,7 @@ async function getSong() {
 			}
 		});
 
-		const bio = "Abdeladim is now listening to " + data.item.name + " By " + data.item.album.artists[0].name;
+		const bio = `🎵🤖 "Completely automated" 🎛️ \n 🎧 Abdeladim is now listening to: \n` + ' 🔊 "' + data.item.name + '" By ' + data.item.album.artists[0].name + " 🎤";
 		if (bio !== oldBio) {
 			changeBio(bio);
 			oldBio = bio;
@@ -79,6 +92,10 @@ refreshAccessToken(refreshToken);
 setInterval(() => {
 	getSong();
 }, 3000);
+
+setInterval(() => {
+	refreshAccessToken(refreshToken)
+}, (59 * 60 * 1000))
 
 
 app.get("/", (req, res) => res.send("No pages"));
